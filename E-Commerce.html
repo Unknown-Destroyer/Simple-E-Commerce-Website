@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My E-Commerce Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">MyStore</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#product-section">Products</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#cart-section">Cart</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search for products...">
+                <button id="search-button">Search</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="sort">
+            <label for="sort-options">Sort by:</label>
+            <select id="sort-options">
+                <option value="default">Default</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="name-desc">Name: Z to A</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+            </select>
+        </section>
+        <section id="product-section" class="product-grid">
+            <!-- Product cards will be dynamically inserted here by JavaScript -->
+        </section>
+        <section id="cart-section" class="cart">
+            <h2>Shopping Cart</h2>
+            <div class="cart-items"></div>
+            <p class="cart-total">Total: ₹0.00</p>
+            <button class="buy-all-button">Buy All</button>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

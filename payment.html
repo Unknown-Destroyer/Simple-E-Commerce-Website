@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MyStore</div>
+        </nav>
+    </header>
+    <main>
+        <h1>Payment Page</h1>
+        <div id="payment-details"></div>
+        <form id="payment-form">
+            <label for="payment-method">Payment Method:</label><br>
+            <input type="radio" id="card" name="payment-method" value="Card" checked>
+            <label for="card">Card</label><br>
+            <input type="radio" id="google-pay" name="payment-method" value="Google Pay">
+            <label for="google-pay">Google Pay</label><br>
+            <input type="radio" id="paytm" name="payment-method" value="Paytm">
+            <label for="paytm">Paytm</label><br>
+            <input type="radio" id="phonepe" name="payment-method" value="PhonePe">
+            <label for="phonepe">PhonePe</label><br>
+            <input type="radio" id="cod" name="payment-method" value="Cash on Delivery">
+            <label for="cod">Cash on Delivery</label><br>
+
+            <div id="card-details">
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card-number" required><br>
+                <label for="expiry-date">Expiry Date:</label>
+                <input type="text" id="expiry-date" name="expiry-date" required><br>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required><br>
+            </div>
+
+            <button type="submit">Pay Now</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 MyStore. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const cartData = params.get("cart");
+
+            let paymentDetails = document.getElementById("payment-details");
+
+            if (cartData) {
+                const cart = JSON.parse(decodeURIComponent(cartData));
+                let total = 0;
+
+                cart.forEach(cartItem => {
+                    total += cartItem.product.price * cartItem.quantity;
+                    paymentDetails.innerHTML += `
+                        <p>${cartItem.product.name} (${cartItem.quantity}) - $${(cartItem.product.price * cartItem.quantity).toFixed(2)}</p>
+                    `;
+                });
+
+                paymentDetails.innerHTML += `<p><strong>Total: $${total.toFixed(2)}</strong></p>`;
+            } else {
+                const productId = params.get("productId");
+                const productName = params.get("productName");
+                const productPrice = params.get("productPrice");
+
+                if (productId && productName && productPrice) {
+                    paymentDetails.innerHTML = `
+                        <p>Product: ${productName}</p>
+                        <p>Price: $${parseFloat(productPrice).toFixed(2)}</p>
+                    `;
+                } else {
+                    paymentDetails.innerHTML = "<p>No items to purchase.</p>";
+                }
+            }
+
+            const paymentForm = document.getElementById("payment-form");
+            const paymentMethodInputs = document.querySelectorAll("input[name='payment-method']");
+            const cardDetails = document.getElementById("card-details");
+
+            paymentMethodInputs.forEach(input => {
+                input.addEventListener("change", () => {
+                    if (input.value === "Card") {
+                        cardDetails.style.display = "block";
+                    } else {
+                        cardDetails.style.display = "none";
+                    }
+                });
+            });
+
+            paymentForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const selectedPaymentMethod = document.querySelector("input[name='payment-method']:checked").value;
+                alert(`Payment method selected: ${selectedPaymentMethod}`);
+                // Add further payment processing logic here.
+            });
+        });
+    </script>
+</body>
+</html>
